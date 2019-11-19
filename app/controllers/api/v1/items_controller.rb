@@ -4,7 +4,13 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def show
-    render json: Item.find(params[:id])
+    item = Item.find(params[:id])
+    # json_hash = {
+    #   name: item.name,
+    #   description: item.description
+    # }
+    serialized_item = ItemSerializer.new(item)
+    render json: serialized_item
   end
 
   def create
