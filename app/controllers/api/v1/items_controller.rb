@@ -5,7 +5,13 @@ class Api::V1::ItemsController < ApplicationController
 
   def show
     item = Item.find(params[:id])
-    render json: item
+    serialized = {
+      id: item.id,
+      name: item.name,
+      description: item.description,
+      num_times_ordered: item.orders.count
+    }
+    render json: serialized
   end
 
   def create

@@ -30,8 +30,9 @@ it "sends a list of items" do
 
     item = JSON.parse(response.body)
 
-    item = item.as_json
-    item = item.except("created_at", "updated_at")
+    #### using as_JSON ###
+    # item = item.as_json
+    # item = item.except("created_at", "updated_at")
 
     expect(item.keys).to include('id')
     expect(item.keys).to include('name')
