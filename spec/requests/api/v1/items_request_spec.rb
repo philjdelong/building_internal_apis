@@ -23,6 +23,30 @@ it "sends a list of items" do
     expect(item["id"]).to eq(id)
   end
 
+  it 'can get one item with customized json' do
+    id = create(:item).id
+
+    get "/api/v1/items/#{id}"
+
+    item = JSON.parse(response.body)
+
+    expect(item.keys).to include('id')
+    expect(item.keys).to include('name')
+    expect(item.keys).to include('description')
+    expect(item.keys).to_not include('created_at')
+    expect(item.keys).to_not include('updated_at')
+  end
+
+  it 'can get one item with a custom attribute' do
+    item = create(:item)
+    create_list(:order_item, 3, item: item)
+
+    get "/api/v1/items/#{item.id}"
+
+    item = JSON.parse(response.body)
+    expect(item['num_times_ordered']).to eq(3)
+  end
+
   it "can create an item" do
     item_params = {name: "Saw", description: "I want to play a game"}
 
